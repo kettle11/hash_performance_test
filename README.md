@@ -1,8 +1,10 @@
 # Hash Performance Test
 
-This is a small comparison of a Rust / Wasm hash using 256bit xxhash vs. the browser's built in SHA-256. On the same hardware SHA-256 is typically slower, some figures online say 15x slower, than xxhash.
+This is a small comparison of a Rust / Wasm hash using 256bit xxhash vs. the browser's built in SHA-256.
 
-But given that the browser's implementation will be implemented in native code I wanted to see how it fares vs a faster algorithm in WebAssembly.
+**This is not a fair comparison**: this is comparing a 256-bit cryptographic hash vs a 128-bit non-cryptographic hash. But I just want a quick way to generate a checksum for files so I just want to know what's faster.
+
+On the same hardware SHA-256 is typically slower, some figures online say 15x slower, than xxhash. But given that the browser's implementation will be implemented in native code I wanted to see how it fares vs a faster algorithm in WebAssembly.
 
 These measurements are informally taken.
 
