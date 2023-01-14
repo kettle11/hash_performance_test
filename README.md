@@ -15,9 +15,11 @@ In terms of the network overhead of loading the Wasm binary the size is only 20k
 Measured on my M1 Macbook Air:
 
 Chrome SHA-256: ~1.7ms
+
 Chrome Wasm/Rust/xxh3_128: ~0.6ms
 
 Firefox SHA-256: ~2.7 ms
+
 Firefox Wasm/Rust/xxh3_128: ~0.6ms
 
 Safari: Precision of `performance.now()` appears to be rounded too aggressively to make results meaningful.
