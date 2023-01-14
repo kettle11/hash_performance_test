@@ -1,0 +1,21 @@
+[package]
+name = "rust_hash"
+version = "0.1.0"
+edition = "2021"
+
+[lib]
+crate-type = ["cdylib"]
+
+# See more keys and their definitions at https://doc.rust-lang.org/cargo/reference/manifest.html
+
+[dependencies.xxhash-rust]
+version = "0.8.5"
+features = ["xxh3", "const_xxh3"]
+
+[profile.release]
+# Consider these options for a smaller binary size
+strip = true
+panic = "abort"
+# opt-level = "z"  # Optimize for size. This makes this project slower.
+lto = true
+codegen-units = 1
