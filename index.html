@@ -1,0 +1,38 @@
+<html>
+
+<script>
+    async function do_thing() {
+        let data = await fetch("large_binary");
+        let d = await data.arrayBuffer();
+
+        {
+            const t0 = performance.now();
+            await crypto.subtle.digest('SHA-256', d);
+            const t1 = performance.now();
+            console.log(`Call took ${t1 - t0} milliseconds.`);
+        }
+
+        {
+            let result = await WebAssembly.instantiateStreaming(fetch("rust_hash/target/wasm32-unknown-unknown/release/rust_hash.wasm"));
+            let memory = result.instance.exports.memory;
+
+            // Give the Wasm side a chance to reserve the memory first. 
+            // This is assuming that the typical case is multiple calls in a row.
+            result.instance.exports.reserve_space(d.byteLength);
+
+            const t0 = performance.now();
+            let pointer = result.instance.exports.reserve_space(d.byteLength);
+
+            const data_location = new Uint8Array(memory.buffer, pointer, d.byteLength);
+            data_location.set(new Uint8Array(d));
+
+            result.instance.exports.hash_data();
+            const t1 = performance.now();
+            console.log(`Call took ${t1 - t0} milliseconds.`);
+        }
+    }
+
+    do_thing();
+</script>
+
+</html>
